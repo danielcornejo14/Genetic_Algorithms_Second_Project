@@ -1,20 +1,21 @@
 from PIL import Image
-from scr.classes.pixel import Pixel
 
-
-if __name__ == "__main__":
-    mainMaze = []
-    SIZE = 50
-
-    maze = Image.open('Laberintos/Lab1.png').convert('RGB')
+def readMaze(mazeNumber, maze):
+    mazeImg = Image.open('Laberintos/Lab'+str(mazeNumber)+'.png').convert('RGB')
     for i in range(SIZE):
         holder = []
         for j in range(SIZE):
-            holder.append(Pixel(i, j, maze.getpixel((i,j))))
-        mainMaze.append(holder)
+            holder.append(mazeImg.getpixel((j, i)))
+        maze.append(holder)
 
-    for i in mainMaze:
-        holder = []
-        for j in i:
-            holder += [j.value]
-        print(holder)
+def printMaze(maze):
+    for y in maze:
+        print(y)
+
+if __name__ == "__main__":
+    mazeNumber = 1
+    mainMaze = []
+    SIZE = 50
+
+    readMaze(mazeNumber, mainMaze)
+    printMaze(mainMaze)
