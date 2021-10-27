@@ -1,5 +1,7 @@
 from PIL import Image
+from scr.classes.individual import Individual
 
+#function to open and read the maze
 def readMaze(mazeNumber, maze):
     mazeImg = Image.open('Laberintos/Lab'+str(mazeNumber)+'.png').convert('RGB')
     for i in range(SIZE):
