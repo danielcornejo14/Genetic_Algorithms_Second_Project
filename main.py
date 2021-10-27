@@ -1,3 +1,5 @@
+import random
+
 from PIL import Image
 from scr.classes.individual import Individual
 
@@ -14,10 +16,20 @@ def printMaze(maze):
     for y in maze:
         print(y)
 
+def main(maxIterations):
+
+    for iteration in range(maxIterations):
+        population = []
+        for x in range(10):
+            population += [Individual(x, random.randint(0, 50), random.randint(0, 50))]
+
+        for ind in population:
+            print(ind)
+        return
+
+
 if __name__ == "__main__":
-    mazeNumber = 1
-    mainMaze = []
+    MAX_ITERATIONS = 1000
     SIZE = 50
 
-    readMaze(mazeNumber, mainMaze)
-    printMaze(mainMaze)
+    main(MAX_ITERATIONS)

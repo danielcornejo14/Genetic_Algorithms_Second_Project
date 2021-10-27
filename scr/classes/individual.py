@@ -9,9 +9,10 @@ class Individual:
     generation: int
 
 
-    def __init__(self, x, y, father=None, mother=None, generation=0):
+    def __init__(self, id, x, y, father=None, mother=None, generation=0):
         """
         Inicialization function
+        :param int id: object identificator
         :param int x: the x coordinate on the image where the individual resides
         :param int y: the y coordinate on the image where the individual resides
         :param Individual or None father: the father of the current read individual
@@ -20,6 +21,7 @@ class Individual:
 
         :return:
         """
+        self.id = id
         self.x_coordinate = x
         self.y_coordinate = y
         self.fitness = 0
@@ -33,4 +35,4 @@ class Individual:
 
         :return:
         """
-        return "id: {} | fitness: {} | generation: {}".format(self.id, self.fitness, self.generation)
+        return "id: {} | fitness: {} | generation: {} | coordinates: ({},{})".format(self.id, self.fitness, self.generation, self.x_coordinate, self.y_coordinate)
