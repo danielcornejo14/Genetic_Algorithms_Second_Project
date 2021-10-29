@@ -1,6 +1,7 @@
 from PIL import Image
 
 IMAGESIZE = 50
+PIXELSNUMBER = 5
 
 class Individual:
     #Parameters (in development)
@@ -39,7 +40,7 @@ class Individual:
     def __evaluateUp(self, image):
         y = self.y_coordinate - 1 
         count = 0
-        while(y >= 0 and count < 5):
+        while(y >= 0 and count < PIXELSNUMBER):
             self.fitness += self.__getPixelSum(image.getpixel((self.x_coordinate, y))) 
             y -= 1
             count += 1
@@ -48,7 +49,7 @@ class Individual:
     def __evaluateDown(self, image):
         y = self.y_coordinate + 1 
         count = 0
-        while(y < IMAGESIZE and count < 5):
+        while(y < IMAGESIZE and count < PIXELSNUMBER):
             self.fitness += self.__getPixelSum(image.getpixel((self.x_coordinate, y)))
             y += 1
             count += 1
@@ -56,7 +57,7 @@ class Individual:
     def __evaluateRight(self, image):
         x = self.x_coordinate + 1 
         count = 0
-        while(x < IMAGESIZE and count < 5):
+        while(x < IMAGESIZE and count < PIXELSNUMBER):
             self.fitness += self.__getPixelSum(image.getpixel((x, self.y_coordinate)))
             x += 1
             count += 1
@@ -64,7 +65,7 @@ class Individual:
     def __evaluateLeft(self,image): 
         x = self.x_coordinate -1 
         count = 0
-        while(x >= 0 and count < 5):
+        while(x >= 0 and count < PIXELSNUMBER):
             self.fitness += self.__getPixelSum(image.getpixel((x, self.y_coordinate)))
             x -= 1
             count += 1
