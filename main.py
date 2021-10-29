@@ -16,20 +16,23 @@ def printMaze(maze):
     for y in maze:
         print(y)
 
-def main(maxIterations):
+def main(maxIterations, image):
 
     for iteration in range(maxIterations):
         population = []
         for x in range(10):
-            population += [Individual(x, random.randint(0, 50), random.randint(0, 50))]
+            population += [Individual(x, random.randint(0, 49), random.randint(0, 49))]
 
         for ind in population:
+            ind.fitnessFunction(image)
             print(ind)
         return
+
 
 
 if __name__ == "__main__":
     MAX_ITERATIONS = 1000
     SIZE = 50
-
-    main(MAX_ITERATIONS)
+    mazeImg = Image.open('Laberintos/Lab1.png').convert('RGB')
+    main(MAX_ITERATIONS, mazeImg)
+    

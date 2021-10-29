@@ -1,3 +1,7 @@
+from PIL import Image
+
+IMAGESIZE = 50
+
 class Individual:
     #Parameters (in development)
     id: int
@@ -28,6 +32,49 @@ class Individual:
         self.father = father
         self.mother = mother
         self.generation = generation
+    
+    def __getPixelSum(self, pixel):
+        return pixel[0]+pixel[1]+pixel[2]
+
+    def __evaluateUp(self, image):
+        y = self.y_coordinate - 1 
+        count = 0
+        while(y >= 0 and count < 5):
+            self.fitness += self.__getPixelSum(image.getpixel((self.x_coordinate, y))) 
+            y -= 1
+            count += 1
+            
+
+    def __evaluateDown(self, image):
+        y = self.y_coordinate + 1 
+        count = 0
+        while(y < IMAGESIZE and count < 5):
+            self.fitness += self.__getPixelSum(image.getpixel((self.x_coordinate, y)))
+            y += 1
+            count += 1
+
+    def __evaluateRight(self, image):
+        x = self.x_coordinate + 1 
+        count = 0
+        while(x < IMAGESIZE and count < 5):
+            self.fitness += self.__getPixelSum(image.getpixel((x, self.y_coordinate)))
+            x += 1
+            count += 1
+
+    def __evaluateLeft(self,image): 
+        x = self.x_coordinate -1 
+        count = 0
+        while(x >= 0 and count < 5):
+            self.fitness += self.__getPixelSum(image.getpixel((x, self.y_coordinate)))
+            x -= 1
+            count += 1
+
+    def fitnessFunction(self, image):
+        self.__evaluateUp(image)
+        self.__evaluateDown(image)
+        self.__evaluateRight(image)
+        self.__evaluateLeft(image)
+
 
     def __repr__(self):
         """
@@ -36,3 +83,5 @@ class Individual:
         :return:
         """
         return "id: {} | fitness: {} | generation: {} | coordinates: ({},{})".format(self.id, self.fitness, self.generation, self.x_coordinate, self.y_coordinate)
+
+    
