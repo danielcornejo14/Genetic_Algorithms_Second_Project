@@ -1,3 +1,4 @@
+import random
 from PIL import Image
 
 IMAGESIZE = 50
@@ -76,6 +77,29 @@ class Individual:
         self.__evaluateRight(image)
         self.__evaluateLeft(image)
 
+    def getMutationX(self):
+        leftLimit = 5 if self.x_coordinate > 5 else self.x_coordinate
+        rightLimit = IMAGESIZE - self.x_coordinate - 1
+        rigthLimit = 5 if rightLimit > 4 else rightLimit
+
+        placement = random.randint(0,rigthLimit)-leftLimit
+
+        return self.x_coordinate+placement
+
+    def getMutationY(self):
+        downLimit = IMAGESIZE - self.y_coordinate - 1
+        upLimit = 5 if self.y_coordinate > 5 else self.y_coordinate
+        downLimit = 5 if downLimit > 4 else downLimit
+
+        placement = random.randint(0,downLimit)-upLimit
+
+        return self.y_coordinate + placement
+
+    def setMother(self, mother):
+        self.mother = mother
+    
+    def setFather(self, father):
+        self.father = father
 
     def __repr__(self):
         """
