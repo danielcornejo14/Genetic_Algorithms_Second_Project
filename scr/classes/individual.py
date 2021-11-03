@@ -95,11 +95,30 @@ class Individual:
 
         return self.y_coordinate + placement
 
-    def setMother(self, mother):
-        self.mother = mother
-    
-    def setFather(self, father):
-        self.father = father
+    def mutate(self):
+        """
+        selects random number from 1 to 5, then is multiplied randomly with 1, or -1 to select a direction, finally the
+        X or Y coordinate is selected randomly in order to add the displacement
+        :return:
+        """
+
+        displacement = random.randint(1, 5)
+        direction = random.choice([-1, 1])
+        coordinate = random.choice([0, 1])
+
+        if coordinate == 0:
+            self.x_coordinate += (displacement * direction)
+            if self.x_coordinate > 50:
+                self.x_coordinate = 50
+            if self.x_coordinate < 0:
+                self.x_coordinate = 0
+        elif coordinate == 1:
+            self.y_coordinate += (displacement * direction)
+            if self.y_coordinate > 50:
+                self.y_coordinate = 50
+            if self.y_coordinate < 0:
+                self.y_coordinate = 0
+
 
     def __repr__(self):
         """

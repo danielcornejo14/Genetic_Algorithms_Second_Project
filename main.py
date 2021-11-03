@@ -1,70 +1,64 @@
 import random
 
 from PIL import Image
-from scr.classes.individual import Individual
+from scr.misc.helpers import *
 
-#function to open and read the maze
-def readMaze(mazeNumber, maze):
-    mazeImg = Image.open('Laberintos/Lab'+str(mazeNumber)+'.png').convert('RGB')
-    for i in range(SIZE):
-        holder = []
-        for j in range(SIZE):
-            holder.append(mazeImg.getpixel((j, i)))
-        maze.append(holder)
+def main(max):
+    initPopulation(POPULATION_SIZE, GENERATIONS)
+    spawnGeneration(GENERATIONS[0], MAZE)
+    # for ind in GENERATIONS[0]:
+    #     MAZE.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
+    #     MAZE.save('Laberintos/output.png')
+    #     ind.fitnessFunction(MAZE)
 
-def printMaze(maze):
-    for y in maze:
-        print(y)
+    for ind in GENERATIONS[0]:
+        print(ind)
 
-def main(maxIterations, image, population):
-    for iteration in range(maxIterations):
-        for x in range(10):
+    print("======================")
 
-            x_coordinate=random.randint(0, 49)
-            y_coordinate=random.randint(0, 49)
-            population += [Individual(x, x_coordinate, y_coordinate)]
-            image.putpixel((x_coordinate, y_coordinate), (0,0,255))
-            image.save('Laberintos/output.png')
-        for ind in population:
-            ind.fitnessFunction(image)
-            #print(ind)
-        return
+    for iteration in range(1, max):
+        GENERATIONS[iteration] = []
 
-#Maybe this should be moved to another part of the program, meanwhile is here
-def reproduce(father,mother, gen, n):
-    x = father.getMutationX()
-    y = mother.getMutationY()
-    ind = Individual(n, x, y)
-    ind.setFather = father
-    ind.setMother = mother
-    gen.append(ind)
+        while len(GENERATIONS[iteration]) < POPULATION_SIZE:
+            father = random.choice(GENERATIONS[iteration - 1])
+            mother = random.choice(GENERATIONS[iteration - 1])
 
-#Maybe this should be moved to another part of the program, meanwhile is here
-def pickParents(image, gen1, gen2, genNum, color):
-    for i in range(10):
-        parent1=random.choice(gen1) 
-        parent2=random.choice(gen1)
-        reproduce(parent1, parent2, gen2, i)
+            GENERATIONS[iteration] += [createOffspring(len(GENERATIONS[iteration]), father, mother, iteration)]
 
-    for ind in gen2:
-        image.putpixel((ind.x_coordinate, ind.y_coordinate), tuple(color))
-        image.save('Laberintos/output'+str(genNum)+'.png')
-        print(ind) 
-    
+        for ind in GENERATIONS[iteration]:
+            print(ind)
+        print("======================")
+
+        # for ind in GENERATIONS:
+        #     x_coordinate = random.randint(0, 49)
+        #     y_coordinate = random.randint(0, 49)
+        #     population += [Individual(x, x_coordinate, y_coordinate)]
+        #     MAZE.putpixel((x_coordinate, y_coordinate), (0, 0, 255))
+        #     MAZE.save('Laberintos/output.png')
+        # for ind in population:
+        #     ind.fitnessFunction(image)
+        #     print(ind)
+
+
+
     
 
 if __name__ == "__main__":
-    MAX_ITERATIONS = 1000
+
+    MAX_ITERATIONS = 10
     SIZE = 50
-    mazeImg = Image.open('Laberintos/Lab1.png').convert('RGB')
-    
-    first = []
-    gen1 = []
-    main(MAX_ITERATIONS, mazeImg, first)
-    pickParents(mazeImg, first, gen1, 1, (255,0,0))
-    gen2 = []
-    pickParents(mazeImg, gen1, gen2, 2, (0,255,0))
-    gen3 = []
-    pickParents(mazeImg, gen2, gen3, 3, (0,255,255))
+    MUTATION_FACTOR = 5
+    GENERATIONS = {}
+    POPULATION_SIZE = 10
+    MAZE = Image.open('Laberintos/Lab1.png').convert('RGB')
+
+    main(MAX_ITERATIONS)
+
+    # main(MAX_ITERATIONS, mazeImg, first)
+    # pickParents(mazeImg, first, gen1, 1, (255,0,0))
+    # gen2 = []
+    # pickParents(mazeImg, gen1, gen2, 2, (0,255,0))
+    # gen3 = []
+    # pickParents(mazeImg, gen2, gen3, 3, (0,255,255))
 
     
