@@ -2,9 +2,16 @@ import random
 
 from ..classes.individual import Individual
 
-def createOffspring(id, father, mother, gen):
+def createGeneration(population, ancesters, size, gen):
 
-    return Individual(id, father.x_coordinate, mother.y_coordinate, father, mother, gen)
+    selector = random.random()
+    population.sort(key=lambda x: x.fitness)
+
+    while len(population) < size:
+        father = random.choice(ancesters)
+        mother = random.choice(ancesters)
+
+        population += [Individual(len(population), father.x_coordinate, mother.y_coordinate, father, mother, gen)]
 
 
 def pickParents(image, gen1, gen2, genNum, color):
@@ -22,9 +29,9 @@ def initPopulation(maxIndividuals, gen):
     population = [Individual(i, random.randint(0, 49), random.randint(0, 49)) for i in range(maxIndividuals)]
     gen[0] = population
 
-def spawnGeneration(indivList, maze):
+def spawnGeneration(indivList, maze, gen):
 
     for ind in indivList:
         maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
-        maze.save('Laberintos/output.png')
+        maze.save('Laberintos/generation'+gen+'.png')
         ind.fitnessFunction(maze)

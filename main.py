@@ -5,11 +5,8 @@ from scr.misc.helpers import *
 
 def main(max):
     initPopulation(POPULATION_SIZE, GENERATIONS)
-    spawnGeneration(GENERATIONS[0], MAZE)
-    # for ind in GENERATIONS[0]:
-    #     MAZE.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
-    #     MAZE.save('Laberintos/output.png')
-    #     ind.fitnessFunction(MAZE)
+    spawnGeneration(GENERATIONS[0], MAZE, '0')
+    GENERATIONS[0].sort(key=lambda x: x.fitness)
 
     for ind in GENERATIONS[0]:
         print(ind)
@@ -19,28 +16,13 @@ def main(max):
     for iteration in range(1, max):
         GENERATIONS[iteration] = []
 
-        while len(GENERATIONS[iteration]) < POPULATION_SIZE:
-            father = random.choice(GENERATIONS[iteration - 1])
-            mother = random.choice(GENERATIONS[iteration - 1])
-
-            GENERATIONS[iteration] += [createOffspring(len(GENERATIONS[iteration]), father, mother, iteration)]
+        createGeneration(GENERATIONS[iteration], GENERATIONS[iteration - 1], POPULATION_SIZE, iteration)
+        spawnGeneration(GENERATIONS[iteration], MAZE, str(iteration))
+        GENERATIONS[iteration].sort(key=lambda x: x.fitness)
 
         for ind in GENERATIONS[iteration]:
             print(ind)
         print("======================")
-
-        # for ind in GENERATIONS:
-        #     x_coordinate = random.randint(0, 49)
-        #     y_coordinate = random.randint(0, 49)
-        #     population += [Individual(x, x_coordinate, y_coordinate)]
-        #     MAZE.putpixel((x_coordinate, y_coordinate), (0, 0, 255))
-        #     MAZE.save('Laberintos/output.png')
-        # for ind in population:
-        #     ind.fitnessFunction(image)
-        #     print(ind)
-
-
-
     
 
 if __name__ == "__main__":
@@ -50,7 +32,7 @@ if __name__ == "__main__":
     MUTATION_FACTOR = 5
     GENERATIONS = {}
     POPULATION_SIZE = 10
-    MAZE = Image.open('Laberintos/Lab1.png').convert('RGB')
+    MAZE = Image.open('Laberintos/_Lab1.png').convert('RGB')
 
     main(MAX_ITERATIONS)
 
