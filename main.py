@@ -8,10 +8,10 @@ def main(max):
     spawnGeneration(GENERATIONS[0], MAZE, '0')
     GENERATIONS[0].sort(key=lambda x: x.fitness)
 
-    for ind in GENERATIONS[0]:
-        print(ind)
+    # for ind in GENERATIONS[0]:
+    #     print(ind)
 
-    print("======================")
+    # print("======================")
 
     for iteration in range(1, max):
         GENERATIONS[iteration] = []
@@ -20,18 +20,18 @@ def main(max):
         spawnGeneration(GENERATIONS[iteration], MAZE, str(iteration))
         GENERATIONS[iteration].sort(key=lambda x: x.fitness)
 
-        for ind in GENERATIONS[iteration]:
-            print(ind)
-        print("======================")
+        # for ind in GENERATIONS[iteration]:
+        #     print(ind)
+        # print("======================")
     
 
 if __name__ == "__main__":
 
-    MAX_ITERATIONS = 10
+    MAX_ITERATIONS = 20
     SIZE = 50
     MUTATION_FACTOR = 5
     GENERATIONS = {}
-    POPULATION_SIZE = 10
+    POPULATION_SIZE = 200
     MAZE = Image.open('Laberintos/_Lab1.png').convert('RGB')
 
     main(MAX_ITERATIONS)

@@ -4,12 +4,11 @@ from ..classes.individual import Individual
 
 def createGeneration(population, ancesters, size, gen):
 
-    selector = random.random()
     population.sort(key=lambda x: x.fitness)
 
     while len(population) < size:
-        father = random.choice(ancesters)
-        mother = random.choice(ancesters)
+        father = random.choices(ancesters, weights=[i.fitness for i in ancesters])[0]
+        mother = random.choices(ancesters, weights=[i.fitness for i in ancesters])[0]
 
         population += [Individual(len(population), father.x_coordinate, mother.y_coordinate, father, mother, gen)]
 
