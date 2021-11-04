@@ -36,7 +36,14 @@ class Individual:
         self.generation = generation
     
     def __getPixelSum(self, pixel):
-        return pixel[0]+pixel[1]+pixel[2]
+        if pixel == (82, 82, 82):
+            return 0
+        elif pixel == (255, 0, 0):
+            return 10
+        elif pixel == (0, 255, 0) or pixel == (0, 0, 255):
+            return 255 * 3
+        else:
+            return pixel[0]+pixel[1]+pixel[2]
 
     def __evaluateUp(self, image):
         y = self.y_coordinate - 1 

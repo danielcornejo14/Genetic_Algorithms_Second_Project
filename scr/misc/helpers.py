@@ -10,8 +10,37 @@ def createGeneration(population, ancesters, size, gen):
         father = random.choices(ancesters, weights=[i.fitness for i in ancesters])[0]
         mother = random.choices(ancesters, weights=[i.fitness for i in ancesters])[0]
 
-        population += [Individual(len(population), father.x_coordinate, mother.y_coordinate, father, mother, gen)]
+        geneX = geneCombiner(father.x_coordinate, mother.x_coordinate)
+        geneY = geneCombiner(father.y_coordinate, mother.y_coordinate)
 
+
+        population += [Individual(len(population), geneX, geneY, father, mother, gen)]
+
+def geneCombiner(father, mother):
+
+    maxLenght = len(max(f'{father:b}', f'{mother:b}'))
+
+    geneFather = f'{father:0{maxLenght}b}'
+    geneMother = f'{mother:0{maxLenght}b}'
+
+    gene = ''
+    switch = True
+    while len(gene) < maxLenght:
+        if switch:
+            gene += geneFather[len(gene)]
+            switch = False
+        else:
+            gene += geneMother[len(gene)]
+            switch = True
+
+    gene = int(gene, 2)
+
+    if gene > 49:
+        gene = 49
+    elif gene < 0:
+        gene = 0
+
+    return gene
 
 def pickParents(image, gen1, gen2, genNum, color):
     for i in range(10):
@@ -34,3 +63,6 @@ def spawnGeneration(indivList, maze, gen):
         maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
         maze.save('Laberintos/generation'+gen+'.png')
         ind.fitnessFunction(maze)
+        if ind.fitness == 0:
+            maze.putpixel((ind.x_coordinate, ind.y_coordinate), (82, 82, 82))
+            maze.save('Laberintos/generation'+gen+'.png')

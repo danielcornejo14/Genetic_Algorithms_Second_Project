@@ -27,7 +27,7 @@ def main(max):
 
 if __name__ == "__main__":
 
-    MAX_ITERATIONS = 20
+    MAX_ITERATIONS = 10
     SIZE = 50
     MUTATION_FACTOR = 5
     GENERATIONS = {}
@@ -36,11 +36,5 @@ if __name__ == "__main__":
 
     main(MAX_ITERATIONS)
 
-    # main(MAX_ITERATIONS, mazeImg, first)
-    # pickParents(mazeImg, first, gen1, 1, (255,0,0))
-    # gen2 = []
-    # pickParents(mazeImg, gen1, gen2, 2, (0,255,0))
-    # gen3 = []
-    # pickParents(mazeImg, gen2, gen3, 3, (0,255,255))
 
     
