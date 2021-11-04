@@ -8,8 +8,8 @@ def main(max):
     spawnGeneration(GENERATIONS[0], MAZE, '0')
     GENERATIONS[0].sort(key=lambda x: x.fitness)
 
-    # for ind in GENERATIONS[0]:
-    #     print(ind)
+    for ind in GENERATIONS[0]:
+        print(ind)
 
     # print("======================")
 
@@ -20,9 +20,9 @@ def main(max):
         spawnGeneration(GENERATIONS[iteration], MAZE, str(iteration))
         GENERATIONS[iteration].sort(key=lambda x: x.fitness)
 
-        # for ind in GENERATIONS[iteration]:
-        #     print(ind)
-        # print("======================")
+        for ind in GENERATIONS[iteration]:
+            print(ind)
+        print("======================")
     
 
 if __name__ == "__main__":

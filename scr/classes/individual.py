@@ -133,6 +133,12 @@ class Individual:
 
         :return:
         """
-        return "id: {} | fitness: {} | generation: {} | coordinates: ({},{})".format(self.id, self.fitness, self.generation, self.x_coordinate, self.y_coordinate)
+        return "id: {} | fitness: {} | generation: {} | coordinates: ({},{}) | parents id: F {} : M {}".format(self.id,
+                                                                                                           self.fitness,
+                                                                                                           self.generation,
+                                                                                                           self.x_coordinate,
+                                                                                                           self.y_coordinate,
+                                                                                                           self.father.id if self.father is not None else 'null',
+                                                                                                           self.mother.id if self.father is not None else 'null')
 
     
