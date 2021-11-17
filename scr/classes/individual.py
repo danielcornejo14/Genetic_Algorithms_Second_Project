@@ -115,14 +115,14 @@ class Individual:
 
         if coordinate == 0:
             self.x_coordinate += (displacement * direction)
-            if self.x_coordinate > 50:
-                self.x_coordinate = 50
+            if self.x_coordinate >= 49:
+                self.x_coordinate = 49
             if self.x_coordinate < 0:
                 self.x_coordinate = 0
         elif coordinate == 1:
             self.y_coordinate += (displacement * direction)
-            if self.y_coordinate > 50:
-                self.y_coordinate = 50
+            if self.y_coordinate >= 49:
+                self.y_coordinate = 49
             if self.y_coordinate < 0:
                 self.y_coordinate = 0
 
