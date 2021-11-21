@@ -2,7 +2,7 @@ import random
 from PIL import Image
 
 IMAGESIZE = 50
-PIXELSNUMBER = 5
+PIXELSNUMBER = 16
 
 class Individual:
     #Parameters (in development)
@@ -41,48 +41,37 @@ class Individual:
         elif pixel == (255, 0, 0):
             return 10
         elif pixel == (0, 255, 0) or pixel == (0, 0, 255):
-            return 255 * 3
+            return 255
         else:
-            return pixel[0]+pixel[1]+pixel[2]
+            #Suma ponderada
+            return (pixel[0]+2*pixel[1]+3*pixel[2])/6
 
-    def __evaluateUp(self, image):
-        y = self.y_coordinate - 1 
-        count = 0
-        while(y >= 0 and count < PIXELSNUMBER):
-            self.fitness += self.__getPixelSum(image.getpixel((self.x_coordinate, y))) 
-            y -= 1
-            count += 1
-            
+    def __getPixels(self, x, y, image):
+            try:
+                return image.getpixel((x,y))
+            except IndexError:
+                return (0,0,0) 
 
-    def __evaluateDown(self, image):
-        y = self.y_coordinate + 1 
-        count = 0
-        while(y < IMAGESIZE and count < PIXELSNUMBER):
-            self.fitness += self.__getPixelSum(image.getpixel((self.x_coordinate, y)))
-            y += 1
-            count += 1
-
-    def __evaluateRight(self, image):
-        x = self.x_coordinate + 1 
-        count = 0
-        while(x < IMAGESIZE and count < PIXELSNUMBER):
-            self.fitness += self.__getPixelSum(image.getpixel((x, self.y_coordinate)))
-            x += 1
-            count += 1
-
-    def __evaluateLeft(self,image): 
-        x = self.x_coordinate -1 
-        count = 0
-        while(x >= 0 and count < PIXELSNUMBER):
-            self.fitness += self.__getPixelSum(image.getpixel((x, self.y_coordinate)))
-            x -= 1
-            count += 1
 
     def fitnessFunction(self, image):
-        self.__evaluateUp(image)
-        self.__evaluateDown(image)
-        self.__evaluateRight(image)
-        self.__evaluateLeft(image)
+        #Evaluate 4 directions
+        #Left
+        for i in range(1,PIXELSNUMBER):
+            pixel = self.__getPixels(self.x_coordinate-i, self.y_coordinate, image)
+            self.fitness+=self.__getPixelSum(pixel)
+        #Right
+        for i in range(1,PIXELSNUMBER):
+            pixel = self.__getPixels(self.x_coordinate+i, self.y_coordinate, image)
+            self.fitness+=self.__getPixelSum(pixel)
+        #Up
+        for i in range(1,PIXELSNUMBER):
+            pixel = self.__getPixels(self.x_coordinate, self.y_coordinate-i, image)
+            self.fitness+=self.__getPixelSum(pixel)
+        #Down
+        for i in range(1,PIXELSNUMBER):
+            pixel = self.__getPixels(self.x_coordinate, self.y_coordinate+i, image)
+            self.fitness+=self.__getPixelSum(pixel)
+
 
     def getMutationX(self):
         leftLimit = 5 if self.x_coordinate > 5 else self.x_coordinate
@@ -109,7 +98,7 @@ class Individual:
         :return:
         """
 
-        displacement = random.randint(1, 5)
+        displacement = random.randint(1, 10)
         direction = random.choice([-1, 1])
         coordinate = random.choice([0, 1])
 
