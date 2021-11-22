@@ -1,4 +1,5 @@
 import random
+from PIL import Image
 
 from ..classes.individual import Individual
 
@@ -51,18 +52,23 @@ def pickParents(image, gen1, gen2, genNum, color):
     for ind in gen2:
         image.putpixel((ind.x_coordinate, ind.y_coordinate), tuple(color))
         image.save('Laberintos/output' + str(genNum) + '.png')
-        print(ind)
+        #print(ind)
 
 def initPopulation(maxIndividuals, gen):
     population = [Individual(i, random.randint(0, 49), random.randint(0, 49)) for i in range(maxIndividuals)]
     gen[0] = population
 
 def spawnGeneration(indivList, maze, gen):
-
+    maze = Image.open('Laberintos/_Lab1.png').convert('RGB')
+    print("_----------GEN", gen)
+    print(len(indivList))
     for ind in indivList:
-        maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
-        maze.save('Laberintos/generation'+gen+'.png')
+        if(gen in ["0","10","16","22","29"]):
+            #print("HERE")
+            maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
+            maze.save('Laberintos/generation'+str(gen)+'.png')
         ind.fitnessFunction(maze)
-        if ind.fitness == 0:
-            maze.putpixel((ind.x_coordinate, ind.y_coordinate), (82, 82, 82))
-            maze.save('Laberintos/generation'+gen+'.png')
+        #if ind.fitness == 0:
+
+            #maze.putpixel((ind.x_coordinate, ind.y_coordinate), (82, 82, 82))
+            #maze.save('Laberintos/generation'+gen+'.png')
