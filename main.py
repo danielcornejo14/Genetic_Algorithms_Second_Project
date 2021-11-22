@@ -1,4 +1,6 @@
-import random
+from scr.GUI.testGUI import mainApp
+import tkinter as tk
+import os
 
 from PIL import Image
 from scr.misc.helpers import *
@@ -34,7 +36,25 @@ if __name__ == "__main__":
     POPULATION_SIZE = 200
     MAZE = Image.open('Laberintos/_Lab1.png').convert('RGB')
 
-    main(MAX_ITERATIONS)
+    ImageList = []
+
+    for root, dirs, files in os.walk('Laberintos'):
+        for file_name in sorted(files, key=int):
+            rel_dir = os.path.relpath(root, '.')
+            rel_file = os.path.join(rel_dir, file_name)
+            rel_file.replace('\\', '/')
+            print(rel_file)
+            ImageList.append(rel_file)
+
+    print(ImageList)
+    # for x in ImageList[0:3]:
+    #     Image.open(x).show()
+
+    # root = tk.Tk()
+    # mainApp(root, )
+    # root.mainloop()
+
+    #main(MAX_ITERATIONS)
 
 
     
