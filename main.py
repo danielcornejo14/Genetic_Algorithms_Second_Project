@@ -1,17 +1,11 @@
-from natsort import natsorted
-
-from scr.GUI.testGUI import mainApp
-import tkinter as tk
-import os
+from PIL import Image
 
 from scr.misc.helpers import *
-
-from PIL import Image
 
 def main(max):
 
     initPopulation(POPULATION_SIZE, GENERATIONS)
-    spawnGeneration(GENERATIONS[0], MAZE, '0')
+    spawnGeneration(GENERATIONS[0], 'Laberintos/_Lab7.png', '0')
     #Se ordena por fitness de mayor a menor
     GENERATIONS[0].sort(key=lambda x: x.fitness, reverse=True)
 
@@ -40,12 +34,7 @@ if __name__ == "__main__":
 
     ImageList = []
 
-    for root, dirs, files in os.walk('Laberintos'):
-
-        for file_name in natsorted(files, key=lambda x: x.lower()):
-            rel_file = os.path.join('Laberintos', file_name)
-            print(rel_file)
-            ImageList.append(rel_file)
+    walkLaberint(ImageList)
 
     print(ImageList)
     # for x in ImageList[0:3]:

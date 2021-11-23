@@ -1,8 +1,11 @@
 import random
 from PIL import Image
+from natsort import natsorted
+import os
 
 from ..classes.individual import Individual
 
+"""MISC FUNCTIONS"""
 def arrayToNumber(array):
     number = 0
     potencia = 1
@@ -13,6 +16,15 @@ def arrayToNumber(array):
 
     return number
 
+def walkLaberint(array):
+    for root, dirs, files in os.walk('Laberintos'):
+
+        for file_name in natsorted(files, key=lambda x: x.lower()):
+            rel_file = os.path.join('Laberintos', file_name)
+            print(rel_file)
+            array.append(rel_file)
+
+"""REPRODUCTION FUNCTIONS"""
 def getChromosome(number):
     #6 por 6 bits necesarios
     dnaArray = [0]*6
@@ -81,6 +93,7 @@ def makePool(population):
     return pool
 
 
+""" GENERATION FUNCTIONS """
 def createGeneration(population, ancesters, size, gen):
 
     #population
@@ -122,19 +135,19 @@ def initPopulation(maxIndividuals, gen):
     population = [Individual(i, random.randint(0, 49), random.randint(0, 49)) for i in range(maxIndividuals)]
     gen[0] = population
 
-def spawnGeneration(indivList, maze, gen):
+def spawnGeneration(indivList, path, gen):
     """
     Put individuals in the output image, also calculates the fitness
     """
     fails = 0
-    maze = Image.open('Laberintos/_Lab7.png').convert('RGB')
+    maze = Image.open(path).convert('RGB')
     print("----------GENERATION", gen)
     promedio = 0
     for ind in indivList:
         try:
             ind.fitnessFunction(maze)
             promedio += ind.fitness
-            if(int(gen)<15 or int(gen)>30):
+            if int(gen) < 15 or int(gen) > 30:
                 maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
                 maze.save('Laberintos/gen'+str(gen)+'.png')
         except:
