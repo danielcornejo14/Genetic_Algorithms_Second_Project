@@ -63,10 +63,10 @@ def spawnGeneration(indivList, maze, gen):
     print("_----------GEN", gen)
     print(len(indivList))
     for ind in indivList:
-        if(gen in ["0","10","16","22","29"]):
-            #print("HERE")
-            maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
-            maze.save('Laberintos/generation'+str(gen)+'.png')
+        # if(gen in ["0","10","16","22","29"]):
+        #     #print("HERE")
+        maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
+        maze.save('Laberintos/generation_'+str(gen)+'.png')
         ind.fitnessFunction(maze)
         #if ind.fitness == 0:
 

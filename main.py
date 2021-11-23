@@ -1,3 +1,5 @@
+from natsort import natsorted
+
 from scr.GUI.testGUI import mainApp
 import tkinter as tk
 import os
@@ -36,13 +38,14 @@ if __name__ == "__main__":
     POPULATION_SIZE = 100
     MAZE = Image.open('Laberintos/_Lab1.png').convert('RGB')
 
+    # main(MAX_ITERATIONS)
+
     ImageList = []
 
     for root, dirs, files in os.walk('Laberintos'):
-        for file_name in sorted(files, key=int):
-            rel_dir = os.path.relpath(root, '.')
-            rel_file = os.path.join(rel_dir, file_name)
-            rel_file.replace('\\', '/')
+
+        for file_name in natsorted(files, key=lambda x: x.lower()):
+            rel_file = os.path.join('Laberintos', file_name)
             print(rel_file)
             ImageList.append(rel_file)
 
@@ -54,7 +57,7 @@ if __name__ == "__main__":
     # mainApp(root, )
     # root.mainloop()
 
-    #main(MAX_ITERATIONS)
+
 
     
     
