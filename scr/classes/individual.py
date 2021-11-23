@@ -2,7 +2,7 @@ import random
 from PIL import Image
 
 IMAGESIZE = 50
-PIXELSNUMBER = 16
+PIXELSNUMBER = 7
 
 class Individual:
     #Parameters (in development)
@@ -36,86 +36,73 @@ class Individual:
         self.generation = generation
     
     def __getPixelSum(self, pixel):
-        if pixel == (82, 82, 82):
-            return 0
-        elif pixel == (255, 0, 0):
-            return 10
-        elif pixel == (0, 255, 0) or pixel == (0, 0, 255):
-            return 255
+        if(pixel[0]<20 and pixel[1]<20 and pixel[2]<20):
+            return -1
         else:
-            #Suma ponderada
-            return (pixel[0]+2*pixel[1]+3*pixel[2])/6
+            return 20
 
     def __getPixels(self, x, y, image):
-            try:
-                return image.getpixel((x,y))
-            except IndexError:
-                return (0,0,0) 
-
+        """
+        Return the pixel, if it exits the image return a black pixel
+        """
+        try:
+            return image.getpixel((x,y))
+        except IndexError:
+            return (0,0,0) 
 
     def fitnessFunction(self, image):
+        """
+        Calculate the fitness of the individual
+        More white pixels increment the fitness
+        Black pixels reduce the fitness a bit
+
+        The more walls the more the fitness get decreased
+        """
+        #Start with this number so the fitness don't become negative
+        self.fitness=50
+
+        #Walls
+        p1,p2,p3,p4 = 0,0,0,0
+
         #Evaluate 4 directions
         #Left
         for i in range(1,PIXELSNUMBER):
             pixel = self.__getPixels(self.x_coordinate-i, self.y_coordinate, image)
-            self.fitness+=self.__getPixelSum(pixel)
+            resultado = self.__getPixelSum(pixel)
+            self.fitness += resultado
+            if(resultado<0):
+                p1 = 1
+      
         #Right
         for i in range(1,PIXELSNUMBER):
             pixel = self.__getPixels(self.x_coordinate+i, self.y_coordinate, image)
-            self.fitness+=self.__getPixelSum(pixel)
+            resultado = self.__getPixelSum(pixel)
+            self.fitness += resultado
+            if(resultado<0):
+                p2 = 1
         #Up
         for i in range(1,PIXELSNUMBER):
             pixel = self.__getPixels(self.x_coordinate, self.y_coordinate-i, image)
-            self.fitness+=self.__getPixelSum(pixel)
+            resultado = self.__getPixelSum(pixel)
+            self.fitness += resultado
+            if(resultado<0):
+                p3 = 1
         #Down
         for i in range(1,PIXELSNUMBER):
             pixel = self.__getPixels(self.x_coordinate, self.y_coordinate+i, image)
-            self.fitness+=self.__getPixelSum(pixel)
+            resultado = self.__getPixelSum(pixel)
+            self.fitness += resultado
+            if(resultado<0):
+                p4 = 0.1
 
+        #The less walls the less the fitness get affected
+        prioridad = p1+p2+p3+p4
+        self.fitness = int(self.fitness*1/prioridad)
 
-    def getMutationX(self):
-        leftLimit = 5 if self.x_coordinate > 5 else self.x_coordinate
-        rightLimit = IMAGESIZE - self.x_coordinate - 1
-        rigthLimit = 5 if rightLimit > 4 else rightLimit
+        if(self.fitness <= 0):
+            self.fitness = 1
 
-        placement = random.randint(0,rigthLimit)-leftLimit
-
-        return self.x_coordinate+placement
-
-    def getMutationY(self):
-        downLimit = IMAGESIZE - self.y_coordinate - 1
-        upLimit = 5 if self.y_coordinate > 5 else self.y_coordinate
-        downLimit = 5 if downLimit > 4 else downLimit
-
-        placement = random.randint(0,downLimit)-upLimit
-
-        return self.y_coordinate + placement
-
-    def mutate(self):
-        """
-        selects random number from 1 to 5, then is multiplied randomly with 1, or -1 to select a direction, finally the
-        X or Y coordinate is selected randomly in order to add the displacement
-        :return:
-        """
-
-        displacement = random.randint(1, 10)
-        direction = random.choice([-1, 1])
-        coordinate = random.choice([0, 1])
-
-        if coordinate == 0:
-            self.x_coordinate += (displacement * direction)
-            if self.x_coordinate >= 49:
-                self.x_coordinate = 49
-            if self.x_coordinate < 0:
-                self.x_coordinate = 0
-        elif coordinate == 1:
-            self.y_coordinate += (displacement * direction)
-            if self.y_coordinate >= 49:
-                self.y_coordinate = 49
-            if self.y_coordinate < 0:
-                self.y_coordinate = 0
-
-
+    
     def __repr__(self):
         """
         Overwrites the object representation
