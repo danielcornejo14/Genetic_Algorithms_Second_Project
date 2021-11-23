@@ -5,7 +5,12 @@ import os
 
 from ..classes.individual import Individual
 
+<<<<<<< Updated upstream
 """MISC FUNCTIONS"""
+=======
+RUTA_LABERINTO = 'Laberintos/_Lab2.png'
+
+>>>>>>> Stashed changes
 def arrayToNumber(array):
     number = 0
     potencia = 1
@@ -140,7 +145,11 @@ def spawnGeneration(indivList, path, gen):
     Put individuals in the output image, also calculates the fitness
     """
     fails = 0
+<<<<<<< Updated upstream
     maze = Image.open(path).convert('RGB')
+=======
+    maze = Image.open(RUTA_LABERINTO).convert('RGB')
+>>>>>>> Stashed changes
     print("----------GENERATION", gen)
     promedio = 0
     for ind in indivList:
@@ -155,5 +164,5 @@ def spawnGeneration(indivList, path, gen):
     
     print("FAILS ", fails)
 
-    promedio = promedio / 500
+    promedio = promedio / len(indivList)
     print("Promedio fitness ", promedio)

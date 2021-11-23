@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 from PIL import Image
 
+=======
+import random
+>>>>>>> Stashed changes
 from scr.misc.helpers import *
 
 def main(max):
@@ -24,10 +28,9 @@ def main(max):
 if __name__ == "__main__":
 
     MAX_ITERATIONS = 41
-    SIZE = 50
-    MUTATION_FACTOR = 5
     GENERATIONS = {}
     POPULATION_SIZE = 500
+<<<<<<< Updated upstream
     MAZE = Image.open('Laberintos/_Lab7.png').convert('RGB')
 
     # main(MAX_ITERATIONS)
@@ -45,6 +48,11 @@ if __name__ == "__main__":
     # root.mainloop()
 
 
+=======
+    MAZE = Image.open(RUTA_LABERINTO).convert('RGB')
+    
+    main(MAX_ITERATIONS)
+>>>>>>> Stashed changes
 
     
     

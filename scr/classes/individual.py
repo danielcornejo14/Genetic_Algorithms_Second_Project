@@ -1,6 +1,5 @@
 import random
 from PIL import Image
-
 IMAGESIZE = 50
 PIXELSNUMBER = 7
 
