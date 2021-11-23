@@ -93,7 +93,7 @@ class Individual:
             resultado = self.__getPixelSum(pixel)
             self.fitness += resultado
             if(resultado<0):
-                p4 = 0.1
+                p4 = 1
 
         #The less walls the less the fitness get affected
         prioridad = p1+p2+p3+p4
