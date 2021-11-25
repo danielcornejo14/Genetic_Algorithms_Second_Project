@@ -5,7 +5,7 @@ PIXELSNUMBER = 7
 
 class Individual:
     #Parameters (in development)
-    id: int
+    id: str
     x_coordinate: int
     y_coordinate: int
     fitness: int
@@ -92,7 +92,7 @@ class Individual:
             resultado = self.__getPixelSum(pixel)
             self.fitness += resultado
             if(resultado<0):
-                p4 = 1
+                p4 = 0.1
 
         #The less walls the less the fitness get affected
         prioridad = p1+p2+p3+p4
@@ -101,6 +101,16 @@ class Individual:
         if(self.fitness <= 0):
             self.fitness = 1
 
+    def toString(self):
+        salida = ""
+        salida += str(self.id)+";"+str(self.fitness)+";"+str(self.generation)+";"+str(self.x_coordinate)+";"+str(self.y_coordinate)+";"
+
+        if(self.father == None or self.mother == None):
+            salida += "null"+";"+"null"
+        else:
+            salida += str(self.father.id)+";"+str(self.mother.id)
+
+        return salida+"\n"
     
     def __repr__(self):
         """

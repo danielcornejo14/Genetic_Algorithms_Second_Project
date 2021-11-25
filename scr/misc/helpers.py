@@ -1,16 +1,13 @@
 import random
 from PIL import Image
-from natsort import natsorted
+#from natsort import natsorted
 import os
 
 from ..classes.individual import Individual
 
-<<<<<<< Updated upstream
-"""MISC FUNCTIONS"""
-=======
+
 RUTA_LABERINTO = 'Laberintos/_Lab2.png'
 
->>>>>>> Stashed changes
 def arrayToNumber(array):
     number = 0
     potencia = 1
@@ -20,14 +17,14 @@ def arrayToNumber(array):
 
 
     return number
-
+"""
 def walkLaberint(array):
     for root, dirs, files in os.walk('Laberintos'):
 
         for file_name in natsorted(files, key=lambda x: x.lower()):
             rel_file = os.path.join('Laberintos', file_name)
             print(rel_file)
-            array.append(rel_file)
+            array.append(rel_file)"""
 
 """REPRODUCTION FUNCTIONS"""
 def getChromosome(number):
@@ -130,14 +127,14 @@ def createGeneration(population, ancesters, size, gen):
         geneX2 = arrayToNumber(dnaChild2[:6])
         geneY2 = arrayToNumber(dnaChild2[-6:])
 
-        population += [Individual(len(population), geneX, geneY, father, mother, gen)]
-        population += [Individual(len(population)+1, geneX2, geneY2, father, mother, gen)]
+        population += [Individual(str(gen)+"-"+str(len(population)), geneX, geneY, father, mother, gen)]
+        population += [Individual(str(gen)+"-"+str(len(population)+1), geneX2, geneY2, father, mother, gen)]
 
 def initPopulation(maxIndividuals, gen):
     """
     Create the first generation
     """
-    population = [Individual(i, random.randint(0, 49), random.randint(0, 49)) for i in range(maxIndividuals)]
+    population = [Individual("0-"+str(i), random.randint(0, 49), random.randint(0, 49)) for i in range(maxIndividuals)]
     gen[0] = population
 
 def spawnGeneration(indivList, path, gen):
@@ -145,24 +142,25 @@ def spawnGeneration(indivList, path, gen):
     Put individuals in the output image, also calculates the fitness
     """
     fails = 0
-<<<<<<< Updated upstream
-    maze = Image.open(path).convert('RGB')
-=======
     maze = Image.open(RUTA_LABERINTO).convert('RGB')
->>>>>>> Stashed changes
     print("----------GENERATION", gen)
     promedio = 0
+    string = ""
     for ind in indivList:
         try:
             ind.fitnessFunction(maze)
             promedio += ind.fitness
+            string += ind.toString()
             if int(gen) < 15 or int(gen) > 30:
                 maze.putpixel((ind.x_coordinate, ind.y_coordinate), (255, 0, 0))
                 maze.save('Laberintos/gen'+str(gen)+'.png')
         except:
             fails += 1
     
-    print("FAILS ", fails)
-
+    #print("FAILS ", fails)
+    string+="-\n"
+    file = open("GENERATIONS.txt", "a")
+    file.write(string)
+    file.close()
     promedio = promedio / len(indivList)
     print("Promedio fitness ", promedio)
